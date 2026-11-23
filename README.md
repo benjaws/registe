@@ -184,6 +184,33 @@ l'exigent).
 
 ---
 
+## Roadmap
+
+Les grands chantiers à venir (par ordre d'envie, pas forcément de priorité) :
+
+- [ ] **LLM multi-fournisseurs (dont Ollama)** — rendre la génération de thèmes agnostique :
+  pouvoir brancher au choix Claude/Anthropic, un **modèle local via [Ollama](https://ollama.com)**
+  (hors-ligne, sans clé ni coût), etc. Abandon d'OpenAI.
+- [ ] **Sortir de PHP pour profiter du temps réel** — réécrire en stack JS/TS
+  (Nuxt / SvelteKit + Supabase, ou Node + socket.io) pour une synchro **WebSocket** du chrono,
+  de l'état DMX et des commandes, au lieu du polling actuel. Migration en v2, sans casser l'existant.
+- [ ] **Cues programmables** — un vrai conducteur de spectacle : enchaîner des actions
+  (lumière, son, chrono) déclenchables à la volée ou en séquence, comme une console de régie théâtre.
+
+### Idées en vrac (à trier plus tard)
+
+- [ ] **Presets / scènes lumière** enregistrables et rappelables en un clic.
+- [ ] **Feuille de match** : équipes, joueurs, score, fautes, vote du public.
+- [ ] **Mode PWA / hors-ligne** (le wifi des salles est souvent mauvais).
+- [ ] **Raccourcis clavier + pédale/boîtier MIDI/USB** pour piloter sans souris pendant le spectacle.
+- [ ] **Export de la soirée** (PDF/CSV : catégories jouées, thèmes, durées).
+- [ ] **Bibliothèque de musiques** mieux rangée (playlists, tags) côté local.
+- [ ] **Thème clair/sombre** et **multi-langue**.
+
+> Envie de contribuer ou de suggérer une idée ? Ouvre une *issue* sur le dépôt.
+
+---
+
 ## Licence
 
 Projet interne du Studio Sous-Gare. Tous droits réservés sauf mention contraire.
