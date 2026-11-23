@@ -110,6 +110,7 @@
     function applyColor(target, name) {
         const c = PALETTE[name];
         if (!c || !running) return;
+        cancelFades();
         clearBlack();
         if (target === 'all') { fixtures.forEach(fx => { fx.color = c.slice(); }); }
         else if (fixtures[target]) { fixtures[target].color = c.slice(); }
@@ -117,6 +118,7 @@
     }
 
     function warmWhite() {
+        cancelFades();
         clearBlack();
         fixtures.forEach(fx => { fx.color = WARM.slice(); });
         refresh();
@@ -125,6 +127,7 @@
     // Fin d'impro : noir instantané, puis rallumage blanc chaud après 3 s
     async function endOfImpro() {
         if (!running) return;
+        cancelFades();
         blackout();
         await sleep(BLACK_HOLD_MS);
         fixtures.forEach(fx => { fx.color = WARM.slice(); });
@@ -140,8 +143,8 @@
             if (res.ok) list = await res.json();
         } catch (e) { /* fallback ci-dessous */ }
         if (!Array.isArray(list) || !list.length) list = DEFAULT_FIXTURES;
-        fixtures = list.map(f => ({
-            name: f.name, address: parseInt(f.address, 10),
+        fixtures = list.map((f, i) => ({
+            id: f.id || ('idx' + i), name: f.name, address: parseInt(f.address, 10),
             type: FIXTURE_TYPES[f.type] ? f.type : 'RGBW',
             color: WARM.slice(),
         }));
@@ -186,9 +189,72 @@
         } catch (e) { /* l'utilisateur cliquera */ }
     }
 
+    // --- Fondus (utilisés par les séquences) ---
+    // Une seule animation à la fois par projecteur et pour le master ; une nouvelle remplace l'ancienne.
+    const anims = new Map();               // clé ('fx:<id>' | 'master') → { tick, done }
+    let animTimer = null;
+    function runAnim(key, ms, apply) {
+        return new Promise(resolve => {
+            const prev = anims.get(key);
+            if (prev) prev.done();
+            const t0 = Date.now();
+            const a = {
+                tick() {
+                    const k = ms > 0 ? Math.min(1, (Date.now() - t0) / ms) : 1;
+                    apply(k);
+                    if (k >= 1) a.done();
+                },
+                done() { if (anims.get(key) === a) anims.delete(key); resolve(); },
+            };
+            anims.set(key, a);
+            a.tick();
+            if (!animTimer) animTimer = setInterval(() => {
+                anims.forEach(x => x.tick());
+                refresh();
+                if (!anims.size) { clearInterval(animTimer); animTimer = null; }
+            }, 25);
+        });
+    }
+    function cancelFades() { Array.from(anims.values()).forEach(a => a.done()); }
+
+    // 'froid' | 'chaud' | … ou '#rrggbb' → [r, g, b, w]
+    function colorValue(c) {
+        if (PALETTE[c]) return PALETTE[c].slice();
+        const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(c || '');
+        return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16), 0] : WARM.slice();
+    }
+
+    function fadeColor(target, color, ms) {
+        if (!running) return Promise.resolve();
+        clearBlack();
+        const to = colorValue(color);
+        const list = target === 'all' ? fixtures : fixtures.filter(fx => fx.id === target);
+        return Promise.all(list.map(fx => {
+            const from = fx.color.slice();
+            return runAnim('fx:' + fx.id, ms, k => { fx.color = from.map((v, i) => v + ((to[i] || 0) - v) * k); });
+        })).then(refresh);
+    }
+
+    function fadeMaster(percent, ms) {
+        if (!running) return Promise.resolve();
+        const from = masterLevel, to = clamp(percent / 100 * 255);
+        if (isBlack && to > 0) { isBlack = false; setBlackBtn(false); }
+        return runAnim('master', ms, k => {
+            masterLevel = clamp(from + (to - from) * k);
+            const sl = document.getElementById('dmxMaster');
+            if (sl) sl.value = String(masterLevel);
+            setLevelLabel();
+        }).then(refresh);
+    }
+
+    function lightsOn() { if (!running) return; clearBlack(); refresh(); }
+    function blackoutNow() { if (!running) return; cancelFades(); blackout(); }
+
     // --- API ---
     window.DMX = {
         connect, endOfImpro, applyColor, toggleBlackout, warmWhite,
+        fadeColor, fadeMaster, lightsOn, blackout: blackoutNow, cancelFades,
+        getFixtures: () => fixtures.map(fx => ({ id: fx.id, name: fx.name })),
         isConnected: () => running,
     };
 
@@ -303,7 +369,7 @@
         slider.value = String(masterLevel);
         slider.id = 'dmxMaster';
         slider.disabled = !running;
-        slider.addEventListener('input', e => setMaster(parseInt(e.target.value, 10)));
+        slider.addEventListener('input', e => { const a = anims.get('master'); if (a) a.done(); setMaster(parseInt(e.target.value, 10)); });
         col.appendChild(top);
         col.appendChild(slider);
         wrap.appendChild(col);

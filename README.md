@@ -118,6 +118,8 @@ OPENAI_API_KEY=...
 La première ouverture de `spotify.php` demande ton **Client ID** Spotify. Dans le dashboard
 Spotify, ajoute l'URL de redirection de ton installation (ex. `https://registe.ch/spotify.php`)
 et ton e-mail dans *User Management* si l'app est en mode développement.
+Une fois connecté, tu reviens automatiquement à la régie : le lecteur Spotify est intégré
+dans la carte « Musique » (onglet **Spotify**).
 
 ---
 
@@ -137,7 +139,18 @@ Connecte-toi, puis va dans **⚙️ Admin** pour :
 - **Jouer / Stopper** le chrono. « Stopper » déclenche la séquence lumière de fin d'impro.
 - Colonne **Lumières (DMX)** : clique **🔌 Connecter** (choisis le port série de l'Enttec),
   puis joue avec les couleurs, l'intensité, « Base (blanc chaud) » et « Noir complet ».
-- Lecteur de **musique** / bouton **Spotify** à droite.
+- Carte **Musique** : onglet **Local** (tes mp3) ou **Spotify** (playlists, titres likés,
+  recherche et mini-lecteur). Un mp3 local qui démarre met Spotify en pause.
+- Carte **🎬 Séquences** (sous les lumières) : tes enchaînements programmés dans
+  *Admin → Séquences*. Étapes possibles : couleur et intensité (avec fondu, éventuellement en
+  parallèle), noir / rallumer, mp3 local, couper le son, Spotify (lecture, pause, suivant ou
+  lien d'un titre/playlist), Jouer / Stopper, attente, « attendre GO ». Une séquence peut tourner
+  en boucle, ou se déclencher automatiquement au « Jouer » ou au « Stopper » (elle remplace
+  alors le noir 3 s → blanc chaud de fin d'impro). « Stopper » arrête toujours la séquence en cours.
+- **Raccourcis clavier** : `V` valider, `J` jouer, `S` stopper, `Espace` lecture/pause musique,
+  `←/→` titre précédent/suivant, `↑/↓` volume, `M` fondu musique, `T` Local↔Spotify,
+  `/` recherche Spotify, `B` base lumière, `N` noir complet, `1`–`9` séquences, `G` GO,
+  `Échap` arrêter la séquence, `?` aide.
 
 ### 3. L'écran tablette (`chrono.php`)
 
@@ -194,15 +207,17 @@ Les grands chantiers à venir (par ordre d'envie, pas forcément de priorité) :
 - [ ] **Sortir de PHP pour profiter du temps réel** — réécrire en stack JS/TS
   (Nuxt / SvelteKit + Supabase, ou Node + socket.io) pour une synchro **WebSocket** du chrono,
   de l'état DMX et des commandes, au lieu du polling actuel. Migration en v2, sans casser l'existant.
-- [ ] **Cues programmables** — un vrai conducteur de spectacle : enchaîner des actions
-  (lumière, son, chrono) déclenchables à la volée ou en séquence, comme une console de régie théâtre.
+- [x] **Séquences personnalisées (cues)** — enchaîner lumière, son et chrono, à la volée
+  (bouton / touches `1`–`9`) ou automatiquement au « Jouer » / « Stopper ».
+- [ ] **Conducteur de spectacle** — enchaîner les séquences dans l'ordre de la soirée (cue list avec GO global).
 
 ### Idées en vrac (à trier plus tard)
 
 - [ ] **Presets / scènes lumière** enregistrables et rappelables en un clic.
 - [ ] **Feuille de match** : équipes, joueurs, score, fautes, vote du public.
 - [ ] **Mode PWA / hors-ligne** (le wifi des salles est souvent mauvais).
-- [ ] **Raccourcis clavier + pédale/boîtier MIDI/USB** pour piloter sans souris pendant le spectacle.
+- [x] **Raccourcis clavier** (bouton ⌨️ ou touche `?` dans la régie)
+- [ ] **Pédale / boîtier MIDI/USB** pour piloter sans souris pendant le spectacle.
 - [ ] **Export de la soirée** (PDF/CSV : catégories jouées, thèmes, durées).
 - [ ] **Bibliothèque de musiques** mieux rangée (playlists, tags) côté local.
 - [ ] **Thème clair/sombre** et **multi-langue**.

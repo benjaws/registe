@@ -51,4 +51,15 @@ $db->exec('CREATE TABLE fixtures (
     account_id TEXT
 )');
 
+// Table séquences personnalisées (cues) — aussi créée à la volée par sequences_db.php
+$db->exec("CREATE TABLE sequences (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    trigger_on TEXT NOT NULL DEFAULT '',  -- '' (manuel) | start | stop
+    is_loop INTEGER NOT NULL DEFAULT 0,
+    steps TEXT NOT NULL,                  -- JSON array
+    position INTEGER NOT NULL DEFAULT 0,
+    account_id TEXT
+)");
+
 echo "Base SQLite initialisée : $dbFile\n";

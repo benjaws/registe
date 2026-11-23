@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="../styles.css" rel="stylesheet">
-    <link href="../app.css?v=4" rel="stylesheet">
+    <link href="../app.css?v=7" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid py-4">
@@ -35,6 +35,9 @@
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="fixture-tab" data-bs-toggle="tab" data-bs-target="#fixture" type="button" role="tab">Projecteurs</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="sequence-tab" data-bs-toggle="tab" data-bs-target="#sequence" type="button" role="tab">Séquences</button>
           </li>
         </ul>
         <div class="tab-content mt-3">
@@ -222,6 +225,57 @@
             </div>
             <small class="text-muted">L'« adresse DMX » est le 1er canal du projecteur. Le « type » décrit l'ordre de ses canaux. Les changements sont pris en compte sur la page principale après rechargement.</small>
           </div>
+          <div class="tab-pane fade" id="sequence" role="tabpanel">
+            <div id="seqListView">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <p class="text-muted mb-0" style="font-size:.9rem;">Enchaîne lumière, son et chrono. Les 9 premières se lancent avec les touches <kbd>1</kbd>…<kbd>9</kbd> dans la régie.</p>
+                <button type="button" class="btn btn-primary btn-sm flex-shrink-0" id="seqNewBtn">+ Nouvelle séquence</button>
+              </div>
+              <div class="table-responsive">
+                <table class="table align-middle">
+                  <thead><tr><th style="width:90px;">Ordre</th><th>Nom</th><th>Déclenchement</th><th>Étapes</th><th>Actions</th></tr></thead>
+                  <tbody id="seqAdminList"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <form id="seqEditor" style="display:none;">
+              <div class="row g-2 align-items-end mb-3">
+                <div class="col-12 col-md-5">
+                  <label for="seqName">Nom</label>
+                  <input type="text" class="form-control" id="seqName" maxlength="60" placeholder="Ouverture du spectacle" required>
+                </div>
+                <div class="col-7 col-md-4">
+                  <label for="seqTrigger">Déclenchement</label>
+                  <select class="form-select" id="seqTrigger">
+                    <option value="">Manuel (bouton / touche)</option>
+                    <option value="start">Automatique au « Jouer »</option>
+                    <option value="stop">Automatique au « Stopper » (remplace noir 3 s → blanc chaud)</option>
+                  </select>
+                </div>
+                <div class="col-5 col-md-3">
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="seqLoop">
+                    <label class="form-check-label" for="seqLoop">🔁 En boucle</label>
+                  </div>
+                </div>
+              </div>
+
+              <label>Étapes</label>
+              <ol id="seqSteps" class="seq-steps"></ol>
+              <div class="d-flex gap-2 mt-2">
+                <select class="form-select" id="seqAddStep" style="max-width:280px;" aria-label="Ajouter une étape">
+                  <option value="">+ Ajouter une étape…</option>
+                </select>
+              </div>
+
+              <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <button type="button" class="btn btn-secondary" id="seqCancelBtn">Annuler</button>
+              </div>
+              <small class="text-muted d-block mt-2">Un fondu « en parallèle » démarre et passe tout de suite à l'étape suivante (pour fondre plusieurs projecteurs ensemble). Les lumières ne bougent que si le DMX est connecté dans la régie.</small>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -229,5 +283,7 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="admin.js?v=3"></script>
+<script src="../sequences.js?v=1"></script>
+<script src="sequences-admin.js?v=1"></script>
 </body>
 </html>

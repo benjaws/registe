@@ -42,6 +42,11 @@ function formatTime(seconds) {
 const audioTransition = document.getElementById('audioTransition');
 const stopMusicBtn = document.getElementById('stopMusicBtn');
 const transitionContainer = document.getElementById('transitionContainer');
+// Un mp3 local qui démarre met Spotify en pause (évite deux sons en même temps)
+['audioTransition', 'musicPlayer'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('play', () => { if (window.RegisteSpotify) window.RegisteSpotify.pause(); });
+});
 audioTransition.addEventListener('ended', () => {
     transitionContainer.style.display = 'none';
     audioTransition.style.display = 'none';
@@ -181,6 +186,8 @@ document.getElementById('playBtn').addEventListener('click', function() {
     chrono.textContent = formatTime(t);
     // Informe la tablette : démarrage du chrono
     syncChrono({ action: 'start', duree: selectedDuree, theme: selectedTheme || '' });
+    // Séquence « au Jouer » (lumière / son de début d'impro)
+    if (window.Sequences) window.Sequences.runTrigger('start');
     if(chronoInterval) clearInterval(chronoInterval);
     chronoInterval = setInterval(() => {
         t--;
@@ -199,8 +206,9 @@ document.getElementById('stopBtn').addEventListener('click', async function() {
     document.getElementById('chrono').textContent = '';
     // Informe la tablette : arrêt du chrono
     syncChrono({ action: 'stop' });
-    // Fin d'impro : noir 3 s puis rallumage blanc chaud
-    if (window.DMX && window.DMX.isConnected()) { window.DMX.endOfImpro(); }
+    // Fin d'impro : séquence « au Stopper » si elle existe, sinon noir 3 s puis rallumage blanc chaud
+    const handled = window.Sequences && window.Sequences.runTrigger('stop');
+    if (!handled && window.DMX && window.DMX.isConnected()) { window.DMX.endOfImpro(); }
     // Reset select et résultat
     document.getElementById('selectCatForm').reset();
     document.getElementById('result').style.display = 'none';
