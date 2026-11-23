@@ -1,0 +1,23 @@
+# Authentification gérée par l'application (comptes + sessions), plus de Basic Auth.
+
+# Protège les fichiers sensibles
+<FilesMatch "\.(sqlite|htpasswd|log|txt)$">
+    Require all denied
+</FilesMatch>
+
+# Bloque les fichiers d'environnement / secrets (.env, .env.local, .env.bak, ...)
+<FilesMatch "^\.env">
+    Require all denied
+</FilesMatch>
+
+# Bloque les sauvegardes courantes qui pourraient contenir des secrets
+<FilesMatch "\.(bak|old|save|swp|dist|sample|example)$">
+    Require all denied
+</FilesMatch>
+
+# Augmentation des limites d'upload
+php_value upload_max_filesize 50M
+php_value post_max_size 50M
+php_value max_execution_time 300
+php_value max_input_time 300
+php_value memory_limit 256M

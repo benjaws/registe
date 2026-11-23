@@ -1,0 +1,30 @@
+# === Secrets / environnement ===
+.env
+.env.*
+!.env.example
+.htpasswd
+
+# === Données runtime (ne jamais publier : PII, hash de mots de passe) ===
+*.sqlite
+data/chrono_state*.json
+
+# === Médias utilisateurs (droits d'auteur) ===
+music/*.mp3
+music/*.wav
+music/*.ogg
+music/*.m4a
+
+# === Divers / artefacts ===
+*.deb
+*.bak
+*.old
+*.save
+*.swp
+*.log
+log_*.txt
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

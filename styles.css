@@ -1,0 +1,101 @@
+/* Bloc lecteur de musique élargi sur tablette/PC */
+.music-player-block {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .music-player-block {
+    max-width: 600px;
+    width: 100%;
+    padding: 1.5rem 2rem 2rem 2rem;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  }
+  #musicPlayer {
+    min-width: 350px;
+    width: 100%;
+    height: 54px;
+  }
+  #musicSelect {
+    font-size: 1.1rem;
+  }
+}
+/* Modern theme */
+
+:root {
+  --primary-color: #6c63ff;
+  --success-color: #2ec4b6;
+  --danger-color: #e71d36;
+  --background-gradient: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--background-gradient);
+  color: #212529;
+  min-height: 100vh;
+}
+
+h1, h3, h4 {
+  font-weight: 600;
+}
+
+.card {
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
+}
+
+.nav-tabs .nav-link.active {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #5a54d6;
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #25a89a;
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c70f27;
+}
+
+/* Responsive enhancements */
+@media (max-width: 576px) {
+  body {
+    padding: 0.5rem;
+  }
+  h1, h3, h4 {
+    font-size: 1.25rem;
+  }
+  table {
+    font-size: 0.9rem;
+  }
+  .btn {
+    width: 100%;
+  }
+  .nav-tabs .nav-link {
+    font-size: 0.9rem;
+  }
+}

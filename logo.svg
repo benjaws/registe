@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Régiste">
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="#38424d"/>
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="none" stroke="#eec41e" stroke-opacity="0.25" stroke-width="2"/>
+  <text x="32" y="33" text-anchor="middle" dominant-baseline="central"
+        font-family="Inter, 'Segoe UI', Arial, sans-serif" font-weight="800" font-size="40" fill="#eec41e">R</text>
+  <circle cx="47" cy="19" r="4.2" fill="#eec41e"/>
+</svg>
