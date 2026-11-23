@@ -213,4 +213,7 @@ Les grands chantiers à venir (par ordre d'envie, pas forcément de priorité) :
 
 ## Licence
 
-Projet interne du Studio Sous-Gare. Tous droits réservés sauf mention contraire.
+Sous licence **MIT** — libre d'utilisation, de modification et de redistribution.
+Voir le fichier [LICENSE](LICENSE).
+
+Créé par Benjamin Boury-Jamot / [Studio Sous-Gare](https://studio-sous-gare.ch).
