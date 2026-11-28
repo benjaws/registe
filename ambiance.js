@@ -1,13 +1,13 @@
 // Ambiance : on tape deux mots entendus (« hôpital abandonné », « banquet médiéval »)
 // → preset lumière (DMX.setScene : couleurs, intensité, effet) + nappe sonore synthétisée.
-// Résolution côté serveur (ambiance.php) : presets → ambiances apprises → Ollama.
+// Résolution côté serveur (ambiance.php) : presets → ambiances apprises → Gemini.
 // Des fichiers dans nappes/ remplacent les couches synthétiques (voir nappes/LISEZMOI.md).
 
 (function () {
     const $ = id => document.getElementById(id);
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const norm = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-    const SRC = { preset: 'preset', appris: 'déjà apprise', ollama: 'inventée par Ollama', 'approché': 'preset approché' };
+    const SRC = { preset: 'preset', appris: 'déjà apprise', gemini: 'inventée par Gemini', 'approché': 'preset approché' };
     const EFFECT = { static: 'fixe', fire: 'flammes', candle: 'bougie', pulse: 'respiration', wave: 'vagues',
                      heartbeat: 'battement', flicker: 'néon', storm: 'orage' };
     let presets = [], nappes = [], current = null, sugg = [], sel = -1;
@@ -169,7 +169,7 @@
         msg(notes.join(' · '), (r.warning || !lit) ? 'warn' : '');
         const q = $('ambInput'); if (q) q.value = '';
         showSugg([]);
-        if (r.source === 'ollama') load();
+        if (r.source === 'gemini') load();
         if (window.RegisteKeys) window.RegisteKeys.toast('🎭 ' + p.name);
     }
 
@@ -193,10 +193,10 @@
             ]);
             presets = r.presets || []; nappes = Array.isArray(n) ? n : [];
             const b = $('ambLlm');
-            if (b) { b.textContent = r.llm ? 'Ollama · ' + r.model : 'presets seuls';
+            if (b) { b.textContent = r.llm ? 'Gemini · ' + r.model : 'presets seuls';
                      b.className = 'badge ' + (r.llm ? 'bg-success' : 'bg-secondary');
-                     b.title = r.llm ? 'Les lieux inconnus sont inventés par Ollama puis retenus'
-                                     : 'OLLAMA_URL absent du .env : seuls les presets répondent'; }
+                     b.title = r.llm ? 'Les lieux inconnus sont inventés par Gemini puis retenus'
+                                     : 'GEMINI_API_KEY absente du .env : seuls les presets répondent'; }
             renderGrid();
         } catch (e) { console.error('Ambiance', e); }
     }

@@ -4,9 +4,9 @@ require_login_api();
 // Ambiance : deux mots entendus → preset lumière + nappe sonore.
 //   GET  ?q=…                      suggestions (presets + ambiances apprises)
 //   GET  (sans q)                  liste complète
-//   POST {text}                    résout : presets → appris → Ollama (puis appris) → approché
+//   POST {text}                    résout : presets → appris → Gemini (puis appris) → approché
 //   POST {action:'forget', id}     oublie une ambiance apprise
-// Les ambiances inventées par Ollama sont retenues par compte : la 2e fois, c'est instantané.
+// Les ambiances inventées par Gemini sont retenues par compte : la 2e fois, c'est instantané.
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
@@ -118,10 +118,10 @@ function amb_clean($d, $text) {
     ];
 }
 
-function amb_ask_ollama($text) {
-    $url = rtrim(env_value('OLLAMA_URL'), '/');
-    if ($url === '') throw new Exception('OLLAMA_URL non configuré');
-    $model = env_value('OLLAMA_MODEL', 'gemma4:latest');
+function amb_ask_gemini($text) {
+    $key = env_value('GEMINI_API_KEY');
+    if ($key === '') throw new Exception('GEMINI_API_KEY non configurée');
+    $model = env_value('GEMINI_MODEL', 'gemini-3.8-flash');
     $layersProps = [];
     foreach (AMB_LAYERS as $l) $layersProps[$l] = ['type' => 'number'];
     $schema = [
@@ -150,29 +150,35 @@ function amb_ask_ollama($text) {
         . "- sound.layers : 1 à 4 couches parmi " . implode(', ', AMB_LAYERS) . ", volume 0.1 à 1. drone=nappe tenue (presque toujours utile), hum=bourdonnement électrique, crowd=brouhaha, drip=gouttes, clock=tic-tac.\n"
         . "- keywords : 4 à 8 mots français proches (lieux ou situations similaires), au singulier.\n"
         . "- name : nom court de l'ambiance en français.\nRéponds uniquement en JSON.";
-    $ch = curl_init($url . '/api/chat');
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-        CURLOPT_CONNECTTIMEOUT => 3,
-        CURLOPT_TIMEOUT => (int)env_value('OLLAMA_TIMEOUT', '20'),
-        CURLOPT_POSTFIELDS => json_encode([
-            'model' => $model,
-            'messages' => [['role' => 'system', 'content' => $system], ['role' => 'user', 'content' => $text]],
-            'format' => $schema,
-            'stream' => false,
-            'think' => false,
-            'keep_alive' => env_value('OLLAMA_KEEP_ALIVE', '30m'),
-            'options' => ['temperature' => 0.6, 'num_predict' => 400],
-        ], JSON_UNESCAPED_UNICODE),
-    ]);
-    $res = curl_exec($ch);
-    if ($res === false) { $e = curl_error($ch); curl_close($ch); throw new Exception($e); }
-    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    if ($code !== 200) throw new Exception("HTTP $code");
-    $content = json_decode($res, true)['message']['content'] ?? '';
+    $post = function ($config) use ($model, $key, $system, $text) {
+        $ch = curl_init(rtrim(env_value('GEMINI_URL', 'https://generativelanguage.googleapis.com/v1beta'), '/') . '/models/' . rawurlencode($model) . ':generateContent');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/json', 'x-goog-api-key: ' . $key],
+            CURLOPT_CONNECTTIMEOUT => 3,
+            CURLOPT_TIMEOUT => (int)env_value('GEMINI_TIMEOUT', '10'),
+            CURLOPT_POSTFIELDS => json_encode([
+                'systemInstruction' => ['parts' => [['text' => $system]]],
+                'contents' => [['role' => 'user', 'parts' => [['text' => $text]]]],
+                'generationConfig' => $config,
+            ], JSON_UNESCAPED_UNICODE),
+        ]);
+        $res = curl_exec($ch);
+        if ($res === false) { $e = curl_error($ch); curl_close($ch); throw new Exception($e); }
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [$code, json_decode($res, true)];
+    };
+    // Schéma JSON strict + réflexion minimale (vitesse) ; si le modèle refuse ces options, JSON simple.
+    $base = ['responseMimeType' => 'application/json', 'temperature' => 0.6, 'maxOutputTokens' => 600];
+    [$code, $data] = $post($base + ['responseJsonSchema' => $schema, 'thinkingConfig' => ['thinkingLevel' => 'minimal']]);
+    if ($code === 400) [$code, $data] = $post($base);
+    if ($code !== 200) throw new Exception("HTTP $code" . (isset($data['error']['message']) ? ' : ' . mb_substr($data['error']['message'], 0, 120) : ''));
+    $content = '';
+    foreach ($data['candidates'][0]['content']['parts'] ?? [] as $part) {
+        if (empty($part['thought'])) $content .= $part['text'] ?? '';
+    }
     $d = json_decode($content, true);
     if (!is_array($d)) throw new Exception('réponse illisible');
     return amb_clean($d, $text);
@@ -186,14 +192,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['q'])) {
         echo json_encode(array_map($slim, array_slice(amb_ranked((string)$_GET['q'], $all), 0, 5)), JSON_UNESCAPED_UNICODE);
     } else {
-        echo json_encode(['presets' => $all, 'llm' => env_value('OLLAMA_URL') !== '', 'model' => env_value('OLLAMA_MODEL', 'gemma4:latest')],
+        echo json_encode(['presets' => $all, 'llm' => env_value('GEMINI_API_KEY') !== '', 'model' => env_value('GEMINI_MODEL', 'gemini-3.8-flash')],
                          JSON_UNESCAPED_UNICODE);
     }
     exit;
 }
 
 $input = json_decode(file_get_contents('php://input'), true) ?: [];
-// Libère la session : un appel Ollama lent ne doit pas bloquer le chrono ni les autres requêtes
+// Libère la session : un appel Gemini lent ne doit pas bloquer le chrono ni les autres requêtes
 session_write_close();
 
 if (($input['action'] ?? '') === 'forget') {
@@ -230,7 +236,7 @@ if ($ranked && $ranked[0]['score'] >= 0.8) {
 $warning = null;
 if (empty($input['noLlm'])) {
     try {
-        $p = amb_ask_ollama($text);
+        $p = amb_ask_gemini($text);
         $p['id'] .= '-' . substr(md5($aid), 0, 6);   // id unique entre comptes
         $st = $db->prepare('INSERT OR REPLACE INTO ambiances (id, account_id, learned_from, data, created_at) VALUES (?,?,?,?,?)');
         $st->bindValue(1, $p['id'], SQLITE3_TEXT);
@@ -239,10 +245,10 @@ if (empty($input['noLlm'])) {
         $st->bindValue(4, json_encode($p, JSON_UNESCAPED_UNICODE), SQLITE3_TEXT);
         $st->bindValue(5, date('c'), SQLITE3_TEXT);
         $st->execute();
-        echo json_encode(['preset' => $p, 'source' => 'ollama', 'ms' => $ms()], JSON_UNESCAPED_UNICODE);
+        echo json_encode(['preset' => $p, 'source' => 'gemini', 'ms' => $ms()], JSON_UNESCAPED_UNICODE);
         exit;
     } catch (Exception $e) {
-        $warning = 'Ollama indisponible (' . $e->getMessage() . ')';
+        $warning = 'Gemini indisponible (' . $e->getMessage() . ')';
     }
 }
 // Repli : le preset qui reconnaît au moins un mot sur deux

@@ -161,9 +161,9 @@ orage, battement de cœur) et lance une **nappe sonore** synthétisée dans le n
 feu, foule, oiseaux, cloches, gouttes, tic-tac…). `↓` / `Tab` choisissent une suggestion.
 
 - **30 lieux d'impro** prêts (`data/ambiance_presets.json`), accents, pluriels et fautes de frappe tolérés.
-- Lieu inconnu → un modèle local **Ollama** invente l'ambiance, puis elle est **retenue pour le compte** :
+- Lieu inconnu → **Gemini** invente l'ambiance (1 à 2 s), puis elle est **retenue pour le compte** :
   la fois suivante, c'est instantané. Clic droit sur une ambiance apprise (bordure pointillée) pour l'oublier.
-  Sans Ollama (ou s'il ne répond pas), Régiste prend le preset le plus proche.
+  Sans clé Gemini (ou s'il ne répond pas), Régiste prend le preset le plus proche.
 - L'intensité de l'ambiance porte sur les couleurs : le curseur **Intensité** reste ton grand master.
 - La nappe s'arrête au **Stopper**, à « Couper le son » (tablette) ou via **🔇 Couper la nappe**.
 - Dans le dock : chaque ambiance peut aller sur une touche (groupe *Ambiances*), plus « Taper un lieu » et « Couper nappe ».
@@ -174,9 +174,9 @@ feu, foule, oiseaux, cloches, gouttes, tic-tac…). `↓` / `Tab` choisissent un
 Configuration dans `.env` (facultatif) :
 
 ```dotenv
-OLLAMA_URL=http://localhost:11434   # sans cette ligne : presets seulement
-OLLAMA_MODEL=gemma4:latest
-OLLAMA_TIMEOUT=20
+GEMINI_API_KEY=AIza...        # sans cette ligne : presets seulement
+GEMINI_MODEL=gemini-3.8-flash
+GEMINI_TIMEOUT=10
 ```
 
 ### Dock Mirabox (boutons physiques)
@@ -247,7 +247,7 @@ l'exigent).
 
 Les grands chantiers à venir (par ordre d'envie, pas forcément de priorité) :
 
-- [x] **Ambiance** — deux mots entendus → preset lumière + nappe sonore (presets + Ollama local).
+- [x] **Ambiance** — deux mots entendus → preset lumière + nappe sonore (presets + Gemini).
 - [ ] **LLM multi-fournisseurs (dont Ollama)** — rendre la génération de thèmes agnostique :
   pouvoir brancher au choix Claude/Anthropic, un **modèle local via [Ollama](https://ollama.com)**
   (hors-ligne, sans clé ni coût), etc. Abandon d'OpenAI.
