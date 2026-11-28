@@ -1,5 +1,16 @@
 # Authentification gérée par l'application (comptes + sessions), plus de Basic Auth.
 
+# Pas de listing de dossiers
+Options -Indexes
+
+# Bloque le dépôt git et les fichiers cachés (sauf .well-known pour Let's Encrypt)
+RedirectMatch 404 /\.(?!well-known)
+
+# data/ : seuls les endpoints *.json.php (protégés par login) sont servis
+<If "%{REQUEST_URI} =~ m#/data/# && %{REQUEST_URI} !~ m#\.json\.php$#">
+    Require all denied
+</If>
+
 # Protège les fichiers sensibles
 <FilesMatch "\.(sqlite|htpasswd|log|txt)$">
     Require all denied
