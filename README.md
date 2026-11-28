@@ -152,6 +152,25 @@ Connecte-toi, puis va dans **⚙️ Admin** pour :
   `/` recherche Spotify, `B` base lumière, `N` noir complet, `1`–`9` séquences, `G` GO,
   `Échap` arrêter la séquence, `?` aide.
 
+### Dock Mirabox (boutons physiques)
+
+Un **Mirabox 293S** (15 touches écran + 3 boutons) se branche en USB sur le PC de régie et
+pilote Régiste via **WebHID** (Chrome/Edge). Bouton **🎛️ Dock** dans la régie :
+
+- **🔌 Connecter le dock** (une seule fois : Chrome s'en souvient et reconnecte tout seul) ;
+- clique une touche de l'aperçu puis choisis son action : Valider / Jouer / Stopper, musique
+  (lecture, suivant, volume, fondu, Local↔Spotify, un mp3 précis), lumières (base, noir,
+  intensité ±, une couleur pour tous ou pour un projecteur), séquences (par nom ou par position),
+  GO et arrêt de séquence ;
+- **Enregistrer** : la disposition est gardée par compte.
+
+Les touches affichent l'état en direct : chrono sur « Jouer », séquence en cours encadrée,
+« GO » qui clignote quand une séquence l'attend, touches lumière grisées sans DMX.
+Si les images apparaissent de travers, change **Rotation des images**.
+Sous Linux, autorise l'accès au dock :
+`echo 'KERNEL=="hidraw*", ATTRS{idVendor}=="5548", MODE="0666"' | sudo tee /etc/udev/rules.d/99-mirabox.rules`
+puis débranche/rebranche. Ferme le logiciel Mirabox officiel (il garde le dock pour lui).
+
 ### 3. L'écran tablette (`chrono.php`)
 
 Ouvre `chrono.php` sur une tablette côté scène (bouton **⏱️ Chrono (écran)** dans la régie).

@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
-    <link href="app.css?v=7" rel="stylesheet">
+    <link href="app.css?v=8" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid py-4">
@@ -21,6 +21,7 @@
       <div class="brand-sub">Régie de spectacle d'impro</div>
       <div class="header-actions">
         <a href="chrono.php" target="_blank" class="btn btn-outline-primary btn-sm">⏱️ Chrono (écran)</a>
+        <button type="button" id="dockBtn" class="btn btn-outline-primary btn-sm" title="Dock Mirabox : connexion et touches">🎛️ Dock</button>
         <button type="button" id="keysHelpBtn" class="btn btn-outline-primary btn-sm" title="Raccourcis clavier (?)">⌨️ Raccourcis</button>
         <a href="admin/" class="btn btn-outline-primary btn-sm">⚙️ Admin</a>
         <?php if (is_superadmin()): ?><a href="superadmin.php" class="btn btn-outline-primary btn-sm">👑 Super-admin</a><?php endif; ?>
@@ -220,11 +221,43 @@
     </div>
   </div>
 </div>
+<!-- Dock Mirabox : connexion + disposition des touches -->
+<div class="modal fade" id="dockModal" tabindex="-1" aria-labelledby="dockModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dockModalTitle">🎛️ Dock Mirabox</h5>
+        <span id="dockStatus" class="badge bg-secondary ms-3">Non connecté</span>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+          <button type="button" id="dockConnect" class="btn btn-sm btn-primary">🔌 Connecter le dock</button>
+          <button type="button" id="dockDisconnect" class="btn btn-sm btn-outline-secondary" style="display:none;">Déconnecter</button>
+          <label class="small ms-auto d-flex align-items-center gap-2">Luminosité
+            <input type="range" id="dockBrightness" min="0" max="100" class="form-range" style="width:120px;"></label>
+          <label class="small d-flex align-items-center gap-2">Rotation des images
+            <select id="dockRotation" class="form-select form-select-sm" style="width:auto;min-width:84px;">
+              <option value="0">0°</option><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option>
+            </select></label>
+        </div>
+        <div id="dockGrid" class="dock-grid"></div>
+        <div id="dockLast" class="small text-muted mt-2">Appuie sur une touche du dock : elle s'allume ici.</div>
+        <div id="dockPicker" class="mt-3"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="dockReset" class="btn btn-sm btn-outline-danger me-auto">Disposition par défaut</button>
+        <button type="button" id="dockSave" class="btn btn-sm btn-primary" disabled>Enregistré</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="dmx.js?v=4"></script>
 <script src="main.js?v=4"></script>
 <script src="spotify.js?v=4"></script>
 <script src="sequences.js?v=1"></script>
-<script src="keys.js?v=2"></script>
+<script src="keys.js?v=3"></script>
+<script src="dock.js?v=1"></script>
 </body>
 </html>

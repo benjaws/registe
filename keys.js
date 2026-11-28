@@ -80,6 +80,9 @@
         '?':          () => showHelp(),
     };
 
+    // Partagé avec le dock Mirabox (dock.js) : mêmes actions que le clavier
+    window.RegisteKeys = { music, press, toast, KEYS };
+
     function isTyping(el) {
         if (!el) return false;
         if (el.isContentEditable) return true;
