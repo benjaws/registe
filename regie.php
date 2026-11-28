@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
-    <link href="app.css?v=8" rel="stylesheet">
+    <link href="app.css?v=9" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid py-4">
@@ -117,6 +117,33 @@
 
       <!-- Colonne droite : Lumières DMX -->
       <div class="col-12 col-lg-8 d-flex flex-column gap-4">
+        <!-- Ambiance : deux mots entendus → lumière + nappe sonore -->
+        <div class="card shadow-sm" id="ambCard">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span>🎭 Ambiance <span class="text-muted small">— tape le lieu entendu, Entrée</span></span>
+            <span id="ambLlm" class="badge bg-secondary">…</span>
+          </div>
+          <div class="card-body">
+            <form id="ambForm" class="d-flex gap-2" autocomplete="off">
+              <input type="text" id="ambInput" class="form-control form-control-lg" maxlength="80"
+                     placeholder="hôpital abandonné, banquet médiéval…" title="Raccourci : A">
+              <button type="submit" class="btn btn-primary btn-lg flex-shrink-0">Go</button>
+            </form>
+            <div id="ambSugg" class="amb-sugg"></div>
+            <div id="ambMsg" class="amb-msg"></div>
+            <div class="d-flex align-items-center gap-3 mt-2 flex-wrap">
+              <div id="ambNow" class="amb-now flex-grow-1"><span class="text-muted">Aucune ambiance</span></div>
+              <label class="small d-flex align-items-center gap-2 mb-0">Nappe
+                <input type="range" id="ambVol" min="0" max="100" value="60" class="form-range" style="width:110px;"></label>
+              <button type="button" id="ambStopSound" class="btn btn-sm btn-outline-secondary" disabled>🔇 Couper la nappe</button>
+            </div>
+            <details class="mt-2">
+              <summary class="small text-muted">Toutes les ambiances (<span id="ambCount">0</span>)</summary>
+              <div id="ambGrid" class="amb-grid"></div>
+            </details>
+          </div>
+        </div>
+
         <div class="card shadow-sm flex-grow-1" id="dmxCard">
           <div class="card-header d-flex justify-content-between align-items-center">
             <span>💡 Lumières (DMX)</span>
@@ -206,6 +233,11 @@
           <dt><kbd>B</kbd></dt><dd>Base (blanc chaud)</dd>
           <dt><kbd>N</kbd></dt><dd>Noir complet / rallumer</dd>
         </dl>
+        <h6>Ambiance</h6>
+        <dl>
+          <dt><kbd>A</kbd></dt><dd>Aller au champ Ambiance (taper le lieu, <kbd>Entrée</kbd>)</dd>
+          <dt><kbd>↓</kbd> <kbd>Tab</kbd></dt><dd>Dans le champ : choisir / appliquer une suggestion</dd>
+        </dl>
         <h6>Séquences</h6>
         <dl>
           <dt><kbd>1</kbd> … <kbd>9</kbd></dt><dd>Lancer la séquence n°1 à 9</dd>
@@ -253,11 +285,12 @@
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="dmx.js?v=4"></script>
+<script src="dmx.js?v=5"></script>
 <script src="main.js?v=4"></script>
 <script src="spotify.js?v=4"></script>
 <script src="sequences.js?v=1"></script>
 <script src="keys.js?v=3"></script>
-<script src="dock.js?v=1"></script>
+<script src="ambiance.js?v=1"></script>
+<script src="dock.js?v=2"></script>
 </body>
 </html>

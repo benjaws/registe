@@ -69,7 +69,9 @@
         if (isBlack) return;      // noir complet : tout à 0
         const hasDim = ('dim' in t);
         const f = hasDim ? 1 : masterLevel / 255;  // si canal dimmer, couleurs pleines + dimmer porte l'intensité
-        const c = fx.color;
+        // effet d'ambiance (feu, orage…) : facteur d'intensité et teinte éventuelle
+        const m = fx.mod == null ? 1 : fx.mod;
+        const c = (fx.tint || fx.color).map(v => v * m);
         if ('r' in t) universe[a + t.r] = clamp(c[0] * f);
         if ('g' in t) universe[a + t.g] = clamp(c[1] * f);
         if ('b' in t) universe[a + t.b] = clamp(c[2] * f);
@@ -215,7 +217,7 @@
             }, 25);
         });
     }
-    function cancelFades() { Array.from(anims.values()).forEach(a => a.done()); }
+    function cancelFades() { Array.from(anims.values()).forEach(a => a.done()); stopEffect(); }
 
     // 'froid' | 'chaud' | … ou '#rrggbb' → [r, g, b, w]
     function colorValue(c) {
@@ -226,6 +228,7 @@
 
     function fadeColor(target, color, ms) {
         if (!running) return Promise.resolve();
+        stopEffect();
         clearBlack();
         const to = colorValue(color);
         const list = target === 'all' ? fixtures : fixtures.filter(fx => fx.id === target);
@@ -250,10 +253,65 @@
     function lightsOn() { if (!running) return; clearBlack(); refresh(); }
     function blackoutNow() { if (!running) return; cancelFades(); blackout(); }
 
+    // --- Ambiances : couleurs réparties + intensité + effet animé ---
+    // Effets : static | fire | candle | pulse | wave | heartbeat | flicker | storm
+    let effTimer = null, flash = 0;
+    function stopEffect() {
+        if (!effTimer) return;
+        clearInterval(effTimer); effTimer = null;
+        fixtures.forEach(fx => { fx.mod = 1; fx.tint = null; });
+        refresh();
+    }
+    function startEffect(name) {
+        if (!name || name === 'static') return;
+        const smooth = fixtures.map(() => 1);
+        effTimer = setInterval(() => {
+            const t = Date.now() / 1000;
+            if (flash > 0) flash--; else if (name === 'storm' && Math.random() < 0.012) flash = [2, 3, 5][Math.random() * 3 | 0];
+            fixtures.forEach((fx, i) => {
+                let m = 1, tint = null;
+                switch (name) {
+                    case 'fire':      smooth[i] += (0.55 + Math.random() * 0.45 - smooth[i]) * 0.35; m = smooth[i]; break;
+                    case 'candle':    smooth[i] += (0.8 + Math.random() * 0.2 - smooth[i]) * 0.08; m = smooth[i]; break;
+                    case 'pulse':     m = 0.55 + 0.45 * Math.sin(t * Math.PI / 2); break;
+                    case 'wave':      m = 0.5 + 0.5 * Math.sin(t * Math.PI / 3 + i * 1.3); break;
+                    case 'heartbeat': { const p = t % 1.1;
+                        m = 0.25 + 0.75 * (Math.exp(-(((p - 0.05) / 0.06) ** 2)) + 0.7 * Math.exp(-(((p - 0.3) / 0.06) ** 2))); break; }
+                    case 'flicker':   m = Math.random() < 0.06 ? 0.1 : 1; break;
+                    case 'storm':     if (flash > 0) tint = [255, 255, 255, 255]; else m = 0.7; break;
+                }
+                fx.mod = Math.min(1, m); fx.tint = tint;
+            });
+            refresh();
+        }, 25);
+    }
+    // '#rrggbb' × intensité → [r,g,b,w] : la part blanche passe sur le canal W des projecteurs RGBW.
+    // L'intensité de l'ambiance porte sur les couleurs : le curseur Intensité reste le grand master du régisseur.
+    function hexFor(fx, hex, level) {
+        const c = colorValue(hex).map(v => v * level);
+        if (!('w' in FIXTURE_TYPES[fx.type])) return c;
+        const w = Math.min(c[0], c[1], c[2]);
+        return [c[0] - w, c[1] - w, c[2] - w, w];
+    }
+    function setScene(scene) {
+        if (!running) return false;
+        cancelFades();
+        clearBlack();
+        const cols = (scene.colors && scene.colors.length) ? scene.colors : ['#ffc489'];
+        const ms = Math.max(0, (+scene.fade || 0) * 1000);
+        const level = Math.max(0, Math.min(100, scene.intensity == null ? 80 : +scene.intensity)) / 100;
+        fixtures.forEach((fx, i) => {
+            const from = fx.color.slice(), to = hexFor(fx, cols[i % cols.length], level);
+            runAnim('fx:' + fx.id, ms, k => { fx.color = from.map((v, j) => v + ((to[j] || 0) - v) * k); });
+        });
+        startEffect(scene.effect);
+        return true;
+    }
+
     // --- API ---
     window.DMX = {
         connect, endOfImpro, applyColor, toggleBlackout, warmWhite,
-        fadeColor, fadeMaster, lightsOn, blackout: blackoutNow, cancelFades,
+        fadeColor, fadeMaster, lightsOn, blackout: blackoutNow, cancelFades, setScene, stopEffect,
         getFixtures: () => fixtures.map(fx => ({ id: fx.id, name: fx.name })),
         isConnected: () => running,
     };

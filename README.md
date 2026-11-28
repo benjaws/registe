@@ -152,6 +152,33 @@ Connecte-toi, puis va dans **⚙️ Admin** pour :
   `/` recherche Spotify, `B` base lumière, `N` noir complet, `1`–`9` séquences, `G` GO,
   `Échap` arrêter la séquence, `?` aide.
 
+### Ambiance (deux mots → lumière + nappe)
+
+Carte **🎭 Ambiance** en haut de la colonne lumières (raccourci `A`) : tape le lieu ou la situation
+entendus (« hôpital abandonné », « banquet médiéval ») puis `Entrée`. Régiste applique aussitôt un preset
+lumière (couleurs réparties sur les projecteurs + effet : flammes, bougie, respiration, vagues, néon,
+orage, battement de cœur) et lance une **nappe sonore** synthétisée dans le navigateur (drone, vent, pluie,
+feu, foule, oiseaux, cloches, gouttes, tic-tac…). `↓` / `Tab` choisissent une suggestion.
+
+- **30 lieux d'impro** prêts (`data/ambiance_presets.json`), accents, pluriels et fautes de frappe tolérés.
+- Lieu inconnu → un modèle local **Ollama** invente l'ambiance, puis elle est **retenue pour le compte** :
+  la fois suivante, c'est instantané. Clic droit sur une ambiance apprise (bordure pointillée) pour l'oublier.
+  Sans Ollama (ou s'il ne répond pas), Régiste prend le preset le plus proche.
+- L'intensité de l'ambiance porte sur les couleurs : le curseur **Intensité** reste ton grand master.
+- La nappe s'arrête au **Stopper**, à « Couper le son » (tablette) ou via **🔇 Couper la nappe**.
+- Dans le dock : chaque ambiance peut aller sur une touche (groupe *Ambiances*), plus « Taper un lieu » et « Couper nappe ».
+- Pour remplacer la synthèse par de vrais sons, dépose des boucles dans `nappes/` : un fichier nommé
+  d'après l'id de l'ambiance (`medieval.mp3`, `orage-pluie.ogg`) remplace toute la nappe ; un fichier nommé
+  d'après une couche (`crowd-bistrot.mp3`, `wind.ogg`) remplace cette couche partout.
+
+Configuration dans `.env` (facultatif) :
+
+```dotenv
+OLLAMA_URL=http://localhost:11434   # sans cette ligne : presets seulement
+OLLAMA_MODEL=gemma4:latest
+OLLAMA_TIMEOUT=20
+```
+
 ### Dock Mirabox (boutons physiques)
 
 Un **Mirabox 293S** (15 touches écran + 3 boutons) se branche en USB sur le PC de régie et
@@ -220,6 +247,7 @@ l'exigent).
 
 Les grands chantiers à venir (par ordre d'envie, pas forcément de priorité) :
 
+- [x] **Ambiance** — deux mots entendus → preset lumière + nappe sonore (presets + Ollama local).
 - [ ] **LLM multi-fournisseurs (dont Ollama)** — rendre la génération de thèmes agnostique :
   pouvoir brancher au choix Claude/Anthropic, un **modèle local via [Ollama](https://ollama.com)**
   (hors-ligne, sans clé ni coût), etc. Abandon d'OpenAI.

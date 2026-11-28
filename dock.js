@@ -180,6 +180,7 @@
     const press = id => K().press && K().press(id);
     const D = () => window.DMX;
     const S = () => window.Sequences;
+    const A = () => window.Ambiance;
     const visible = id => { const b = $(id); return !!(b && !b.disabled && b.offsetParent !== null); };
     const lightsOk = () => !!(D() && D().isConnected());
 
@@ -269,6 +270,11 @@
         'seq:stop': { group: 'Séquences', icon: '⏹️', label: 'Arrêter séq.', bg: '#38424d',
             run: () => { if (S() && S().state()) { S().stop(); toast('⏹ Séquence arrêtée'); } },
             face: f => ({ ...f, dim: !(S() && S().state()) }) },
+        'amb:focus': { group: 'Ambiance', icon: '🎭', label: 'Taper un lieu', bg: '#5b3a8c',
+            run: () => A() && A().focus() },
+        'amb:stop': { group: 'Ambiance', icon: '🔇', label: 'Couper nappe', bg: '#38424d',
+            run: () => { if (A()) { A().stopSound(2); toast('🔇 Nappe coupée'); } },
+            face: f => ({ ...f, dim: !(A() && A().isPlaying()) }) },
     };
 
     // Résout un id d'action (fixe ou dynamique) en { label, icon, bg, fg, run, face }
@@ -282,6 +288,14 @@
             return { icon: '🎬', label: 'Séquence ' + (i + 1), bg: '#4b3a8c',
                 run: () => { const s = seq(); if (s) { S().runIndex(i); toast('🎬 ' + s.name); } },
                 face: f => { const s = seq(); return s ? { ...f, label: s.name, active: seqRunning(s) } : { ...f, dim: true }; } };
+        }
+        if ((m = /^amb:(.+)$/.exec(id))) {
+            const amb = () => (A() ? A().list() : []).find(p => p.id === m[1]);
+            return { icon: '🎭', label: 'Ambiance', bg: '#5b3a8c',
+                run: () => { if (amb()) A().apply({ id: m[1] }); },
+                face: f => { const p = amb(), cur = A() && A().current();
+                    return p ? { ...f, icon: p.emoji || '🎭', label: p.name, bg: (p.colors || [])[0] || f.bg, fg: '#000',
+                                 active: !!(cur && cur.id === p.id) } : { ...f, label: '(oubliée)', dim: true }; } };
         }
         if ((m = /^seq:(.+)$/.exec(id))) {
             const seq = () => (S() ? S().list() : []).find(s => s.id === m[1]);
@@ -337,6 +351,7 @@
         const fixtures = [{ id: 'all', name: 'Tous' }].concat(D() ? D().getFixtures() : []);
         fixtures.forEach(fx => Object.entries(COLOR).forEach(([k, c]) =>
             out.push({ id: 'light:color:' + fx.id + ':' + k, group: 'Couleurs — ' + fx.name, label: c.label })));
+        (A() ? A().list() : []).forEach(p => out.push({ id: 'amb:' + p.id, group: 'Ambiances', label: (p.emoji || '🎭') + ' ' + p.name }));
         musics.forEach(m => out.push({ id: 'mp3:' + m.filename, group: 'Jouer un mp3', label: '🎵 ' + (m.title || m.filename) }));
         return out;
     }

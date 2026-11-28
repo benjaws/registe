@@ -28,3 +28,9 @@ log_*.txt
 Thumbs.db
 .vscode/
 .idea/
+
+# === Nappes sonores (Ambiance) ===
+nappes/*.mp3
+nappes/*.wav
+nappes/*.ogg
+nappes/*.m4a

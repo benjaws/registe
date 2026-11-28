@@ -242,3 +242,19 @@ audio { border-radius: 10px; }
 .dock-side-lbl { line-height: 1.15; text-align: center; overflow: hidden; max-height: 2.4em; }
 .dock-key.selected, .dock-side.selected { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(238,196,30,.35); }
 .dock-key.pressed, .dock-side.pressed { transform: scale(.92); border-color: #fff; }
+
+/* --- Ambiance --- */
+.amb-sugg { display:flex; gap:6px; flex-wrap:wrap; min-height:8px; margin-top:8px; }
+.amb-sugg .btn.active { background:#38424d; color:#fff; }
+.amb-msg { font-size:.85rem; color:#6c757d; min-height:1.2em; margin-top:4px; }
+.amb-msg--warn { color:#a86b00; } .amb-msg--err { color:#c0392b; }
+.amb-now__name { font-weight:700; font-size:1.15rem; display:inline-block; margin-right:8px; }
+.amb-now__info { font-size:.85rem; color:#6c757d; }
+.amb-sw { display:inline-flex; gap:3px; vertical-align:middle; }
+.amb-sw i { width:14px; height:14px; border-radius:50%; border:1px solid rgba(0,0,0,.2); display:inline-block; }
+.amb-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:6px; margin-top:8px; }
+.amb-chip { display:flex; align-items:center; gap:6px; text-align:left; font-size:.88rem; padding:7px 9px;
+    border:1px solid #dee2e6; border-radius:9px; background:#f6f7f9; }
+.amb-chip:hover { border-color:#adb5bd; }
+.amb-chip .amb-sw { margin-left:auto; } .amb-chip .amb-sw i { width:10px; height:10px; }
+.amb-chip--learned { border-style:dashed; }

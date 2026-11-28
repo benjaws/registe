@@ -1,0 +1,878 @@
+[
+ {
+  "id": "hopital",
+  "name": "Hôpital",
+  "emoji": "🏥",
+  "colors": [
+   "#dff4ff",
+   "#a8e6ff"
+  ],
+  "intensity": 85,
+  "effect": "static",
+  "fade": 2,
+  "sound": {
+   "mood": "clair",
+   "layers": {
+    "hum": 0.4,
+    "drone": 0.2,
+    "clock": 0.15
+   }
+  },
+  "keywords": [
+   "hôpital",
+   "clinique",
+   "urgences",
+   "bloc opératoire",
+   "infirmerie",
+   "laboratoire",
+   "médecin"
+  ]
+ },
+ {
+  "id": "abandonne",
+  "name": "Lieu abandonné",
+  "emoji": "🏚️",
+  "colors": [
+   "#3b5f4a",
+   "#1e2f40",
+   "#6b7a3a"
+  ],
+  "intensity": 30,
+  "effect": "flicker",
+  "fade": 3,
+  "sound": {
+   "mood": "etrange",
+   "layers": {
+    "drone": 0.6,
+    "wind": 0.4,
+    "drip": 0.3
+   }
+  },
+  "keywords": [
+   "abandonné",
+   "ruine",
+   "friche",
+   "usine désaffectée",
+   "sous-sol",
+   "cave",
+   "hanté",
+   "asile"
+  ]
+ },
+ {
+  "id": "medieval",
+  "name": "Banquet médiéval",
+  "emoji": "🍗",
+  "colors": [
+   "#ff8a2a",
+   "#ffb347",
+   "#c0392b"
+  ],
+  "intensity": 75,
+  "effect": "fire",
+  "fade": 3,
+  "sound": {
+   "mood": "chaud",
+   "layers": {
+    "fire": 0.5,
+    "crowd": 0.5,
+    "drone": 0.2
+   }
+  },
+  "keywords": [
+   "banquet",
+   "médiéval",
+   "taverne",
+   "auberge",
+   "château",
+   "festin",
+   "roi",
+   "chevalier",
+   "moyen âge"
+  ]
+ },
+ {
+  "id": "foret_nuit",
+  "name": "Forêt la nuit",
+  "emoji": "🌲",
+  "colors": [
+   "#0b2a4a",
+   "#1d4d2b"
+  ],
+  "intensity": 30,
+  "effect": "pulse",
+  "fade": 4,
+  "sound": {
+   "mood": "sombre",
+   "layers": {
+    "wind": 0.5,
+    "drone": 0.4,
+    "birds": 0.1
+   }
+  },
+  "keywords": [
+   "forêt",
+   "bois",
+   "nuit",
+   "clairière",
+   "sous-bois",
+   "loup",
+   "camping"
+  ]
+ },
+ {
+  "id": "foret_jour",
+  "name": "Forêt en plein jour",
+  "emoji": "🌳",
+  "colors": [
+   "#9be15d",
+   "#ffe68a"
+  ],
+  "intensity": 85,
+  "effect": "static",
+  "fade": 3,
+  "sound": {
+   "mood": "clair",
+   "layers": {
+    "birds": 0.6,
+    "wind": 0.3
+   }
+  },
+  "keywords": [
+   "printemps",
+   "jardin",
+   "parc",
+   "prairie",
+   "campagne",
+   "pique-nique",
+   "été"
+  ]
+ },
+ {
+  "id": "plage",
+  "name": "Plage au soleil",
+  "emoji": "🏖️",
+  "colors": [
+   "#ffd27f",
+   "#4fc3f7"
+  ],
+  "intensity": 95,
+  "effect": "wave",
+  "fade": 3,
+  "sound": {
+   "mood": "joyeux",
+   "layers": {
+    "waves": 0.7,
+    "birds": 0.2,
+    "wind": 0.2
+   }
+  },
+  "keywords": [
+   "plage",
+   "mer",
+   "océan",
+   "bord de mer",
+   "vacances",
+   "île",
+   "sable"
+  ]
+ },
+ {
+  "id": "sous_marin",
+  "name": "Sous l'eau",
+  "emoji": "🌊",
+  "colors": [
+   "#003c8f",
+   "#00838f",
+   "#1a237e"
+  ],
+  "intensity": 40,
+  "effect": "wave",
+  "fade": 4,
+  "sound": {
+   "mood": "etrange",
+   "layers": {
+    "drone": 0.6,
+    "drip": 0.3,
+    "waves": 0.3
+   }
+  },
+  "keywords": [
+   "sous-marin",
+   "sous l'eau",
+   "océan profond",
+   "abysse",
+   "aquarium",
+   "plongée",
+   "sirène"
+  ]
+ },
+ {
+  "id": "orage",
+  "name": "Orage",
+  "emoji": "⛈️",
+  "colors": [
+   "#2c3e70",
+   "#1b2440"
+  ],
+  "intensity": 65,
+  "effect": "storm",
+  "fade": 2,
+  "sound": {
+   "mood": "tendu",
+   "layers": {
+    "rain": 0.8,
+    "wind": 0.5,
+    "drone": 0.3
+   }
+  },
+  "keywords": [
+   "orage",
+   "tempête",
+   "pluie",
+   "éclair",
+   "ouragan",
+   "naufrage"
+  ]
+ },
+ {
+  "id": "feu_camp",
+  "name": "Feu de camp",
+  "emoji": "🔥",
+  "colors": [
+   "#ff5a00",
+   "#ff9500"
+  ],
+  "intensity": 55,
+  "effect": "fire",
+  "fade": 3,
+  "sound": {
+   "mood": "chaud",
+   "layers": {
+    "fire": 0.8,
+    "wind": 0.2,
+    "drone": 0.15
+   }
+  },
+  "keywords": [
+   "feu de camp",
+   "feu",
+   "cheminée",
+   "forge",
+   "bivouac",
+   "veillée"
+  ]
+ },
+ {
+  "id": "diner",
+  "name": "Dîner aux chandelles",
+  "emoji": "🕯️",
+  "colors": [
+   "#ff9f43",
+   "#ffb26b"
+  ],
+  "intensity": 45,
+  "effect": "candle",
+  "fade": 4,
+  "sound": {
+   "mood": "chaud",
+   "layers": {
+    "drone": 0.3,
+    "crowd": 0.15
+   }
+  },
+  "keywords": [
+   "dîner",
+   "chandelle",
+   "romantique",
+   "restaurant",
+   "rendez-vous",
+   "demande en mariage",
+   "amoureux"
+  ]
+ },
+ {
+  "id": "discotheque",
+  "name": "Boîte de nuit",
+  "emoji": "🪩",
+  "colors": [
+   "#ff00aa",
+   "#7c4dff",
+   "#00e5ff"
+  ],
+  "intensity": 80,
+  "effect": "pulse",
+  "fade": 1,
+  "sound": {
+   "mood": "joyeux",
+   "layers": {
+    "drone": 0.4,
+    "crowd": 0.6,
+    "heartbeat": 0.4
+   }
+  },
+  "keywords": [
+   "boîte de nuit",
+   "discothèque",
+   "club",
+   "fête",
+   "soirée",
+   "rave",
+   "bal"
+  ]
+ },
+ {
+  "id": "espace",
+  "name": "Vaisseau spatial",
+  "emoji": "🚀",
+  "colors": [
+   "#00e5ff",
+   "#304ffe",
+   "#e040fb"
+  ],
+  "intensity": 55,
+  "effect": "pulse",
+  "fade": 3,
+  "sound": {
+   "mood": "etrange",
+   "layers": {
+    "hum": 0.5,
+    "drone": 0.6
+   }
+  },
+  "keywords": [
+   "espace",
+   "vaisseau",
+   "fusée",
+   "station spatiale",
+   "planète",
+   "extraterrestre",
+   "science-fiction",
+   "futur"
+  ]
+ },
+ {
+  "id": "bureau",
+  "name": "Bureau",
+  "emoji": "💼",
+  "colors": [
+   "#f4f7ff",
+   "#dde6f5"
+  ],
+  "intensity": 80,
+  "effect": "static",
+  "fade": 2,
+  "sound": {
+   "mood": "clair",
+   "layers": {
+    "hum": 0.3,
+    "clock": 0.3,
+    "crowd": 0.1
+   }
+  },
+  "keywords": [
+   "bureau",
+   "open space",
+   "entreprise",
+   "réunion",
+   "banque",
+   "administration",
+   "entretien d'embauche"
+  ]
+ },
+ {
+  "id": "eglise",
+  "name": "Église",
+  "emoji": "⛪",
+  "colors": [
+   "#ffe0a3",
+   "#b39ddb"
+  ],
+  "intensity": 55,
+  "effect": "static",
+  "fade": 4,
+  "sound": {
+   "mood": "sombre",
+   "layers": {
+    "drone": 0.6,
+    "bells": 0.4
+   }
+  },
+  "keywords": [
+   "église",
+   "cathédrale",
+   "messe",
+   "chapelle",
+   "mariage",
+   "enterrement",
+   "monastère",
+   "temple"
+  ]
+ },
+ {
+  "id": "cimetiere",
+  "name": "Cimetière la nuit",
+  "emoji": "🪦",
+  "colors": [
+   "#3a4a7a",
+   "#4b2a5a"
+  ],
+  "intensity": 25,
+  "effect": "pulse",
+  "fade": 4,
+  "sound": {
+   "mood": "etrange",
+   "layers": {
+    "wind": 0.6,
+    "drone": 0.5,
+    "bells": 0.1
+   }
+  },
+  "keywords": [
+   "cimetière",
+   "tombe",
+   "crypte",
+   "fantôme",
+   "zombie",
+   "halloween",
+   "vampire",
+   "sorcière"
+  ]
+ },
+ {
+  "id": "enfer",
+  "name": "Enfer",
+  "emoji": "😈",
+  "colors": [
+   "#ff1a00",
+   "#8b0000",
+   "#ff6a00"
+  ],
+  "intensity": 60,
+  "effect": "fire",
+  "fade": 2,
+  "sound": {
+   "mood": "tendu",
+   "layers": {
+    "fire": 0.6,
+    "drone": 0.7,
+    "heartbeat": 0.3
+   }
+  },
+  "keywords": [
+   "enfer",
+   "diable",
+   "volcan",
+   "démon",
+   "lave",
+   "apocalypse"
+  ]
+ },
+ {
+  "id": "paradis",
+  "name": "Paradis",
+  "emoji": "☁️",
+  "colors": [
+   "#ffffff",
+   "#fff3c4",
+   "#e1f5fe"
+  ],
+  "intensity": 95,
+  "effect": "pulse",
+  "fade": 5,
+  "sound": {
+   "mood": "clair",
+   "layers": {
+    "drone": 0.5,
+    "bells": 0.3,
+    "birds": 0.2
+   }
+  },
+  "keywords": [
+   "paradis",
+   "ciel",
+   "nuage",
+   "ange",
+   "au-delà",
+   "rêve",
+   "dieu"
+  ]
+ },
+ {
+  "id": "polar",
+  "name": "Interrogatoire",
+  "emoji": "🕵️",
+  "colors": [
+   "#e8e2c8",
+   "#141414"
+  ],
+  "intensity": 55,
+  "effect": "flicker",
+  "fade": 1,
+  "sound": {
+   "mood": "tendu",
+   "layers": {
+    "hum": 0.5,
+    "clock": 0.4,
+    "drone": 0.3
+   }
+  },
+  "keywords": [
+   "interrogatoire",
+   "commissariat",
+   "police",
+   "prison",
+   "polar",
+   "enquête",
+   "détective",
+   "cellule"
+  ]
+ },
+ {
+  "id": "suspense",
+  "name": "Tension",
+  "emoji": "💓",
+  "colors": [
+   "#8b0000",
+   "#2a0a2a"
+  ],
+  "intensity": 40,
+  "effect": "heartbeat",
+  "fade": 2,
+  "sound": {
+   "mood": "tendu",
+   "layers": {
+    "heartbeat": 0.7,
+    "drone": 0.6
+   }
+  },
+  "keywords": [
+   "tension",
+   "suspense",
+   "peur",
+   "angoisse",
+   "danger",
+   "bombe",
+   "braquage",
+   "cachette"
+  ]
+ },
+ {
+  "id": "cafe",
+  "name": "Café / bistrot",
+  "emoji": "☕",
+  "colors": [
+   "#ffc37a",
+   "#e8a56b"
+  ],
+  "intensity": 70,
+  "effect": "static",
+  "fade": 2,
+  "sound": {
+   "mood": "chaud",
+   "layers": {
+    "crowd": 0.5,
+    "clock": 0.1
+   }
+  },
+  "keywords": [
+   "café",
+   "bistrot",
+   "bar",
+   "terrasse",
+   "brasserie",
+   "boulangerie",
+   "salon de thé"
+  ]
+ },
+ {
+  "id": "marche",
+  "name": "Marché",
+  "emoji": "🧺",
+  "colors": [
+   "#ffd54f",
+   "#ff8a65",
+   "#aed581"
+  ],
+  "intensity": 90,
+  "effect": "static",
+  "fade": 2,
+  "sound": {
+   "mood": "joyeux",
+   "layers": {
+    "crowd": 0.7,
+    "birds": 0.2
+   }
+  },
+  "keywords": [
+   "marché",
+   "foire",
+   "place du village",
+   "fête foraine",
+   "kermesse",
+   "souk"
+  ]
+ },
+ {
+  "id": "gare",
+  "name": "Gare / quai",
+  "emoji": "🚉",
+  "colors": [
+   "#cfd8dc",
+   "#90a4ae"
+  ],
+  "intensity": 70,
+  "effect": "static",
+  "fade": 2,
+  "sound": {
+   "mood": "clair",
+   "layers": {
+    "crowd": 0.4,
+    "hum": 0.3,
+    "wind": 0.2,
+    "clock": 0.2
+   }
+  },
+  "keywords": [
+   "gare",
+   "quai",
+   "métro",
+   "aéroport",
+   "train",
+   "voyage",
+   "salle d'attente"
+  ]
+ },
+ {
+  "id": "montagne",
+  "name": "Sommet enneigé",
+  "emoji": "🏔️",
+  "colors": [
+   "#e3f2fd",
+   "#90caf9"
+  ],
+  "intensity": 90,
+  "effect": "static",
+  "fade": 4,
+  "sound": {
+   "mood": "clair",
+   "layers": {
+    "wind": 0.8,
+    "drone": 0.3
+   }
+  },
+  "keywords": [
+   "montagne",
+   "neige",
+   "sommet",
+   "glacier",
+   "ski",
+   "chalet",
+   "pôle nord",
+   "banquise",
+   "alpes"
+  ]
+ },
+ {
+  "id": "desert",
+  "name": "Désert",
+  "emoji": "🏜️",
+  "colors": [
+   "#ffb74d",
+   "#ff7043"
+  ],
+  "intensity": 95,
+  "effect": "static",
+  "fade": 3,
+  "sound": {
+   "mood": "chaud",
+   "layers": {
+    "wind": 0.6,
+    "drone": 0.4
+   }
+  },
+  "keywords": [
+   "désert",
+   "sahara",
+   "oasis",
+   "western",
+   "far west",
+   "safari",
+   "savane"
+  ]
+ },
+ {
+  "id": "laboratoire_fou",
+  "name": "Labo de savant fou",
+  "emoji": "🧪",
+  "colors": [
+   "#76ff03",
+   "#d500f9"
+  ],
+  "intensity": 50,
+  "effect": "flicker",
+  "fade": 2,
+  "sound": {
+   "mood": "etrange",
+   "layers": {
+    "hum": 0.6,
+    "drip": 0.3,
+    "drone": 0.4
+   }
+  },
+  "keywords": [
+   "savant fou",
+   "expérience",
+   "potion",
+   "alchimiste",
+   "monstre",
+   "frankenstein",
+   "sorcellerie"
+  ]
+ },
+ {
+  "id": "chambre",
+  "name": "Chambre la nuit",
+  "emoji": "🛏️",
+  "colors": [
+   "#1a237e",
+   "#283593"
+  ],
+  "intensity": 25,
+  "effect": "static",
+  "fade": 4,
+  "sound": {
+   "mood": "sombre",
+   "layers": {
+    "clock": 0.3,
+    "drone": 0.2
+   }
+  },
+  "keywords": [
+   "chambre",
+   "lit",
+   "nuit",
+   "sommeil",
+   "insomnie",
+   "cauchemar",
+   "berceuse",
+   "maison"
+  ]
+ },
+ {
+  "id": "ecole",
+  "name": "Salle de classe",
+  "emoji": "🏫",
+  "colors": [
+   "#fffde7",
+   "#e3f2fd"
+  ],
+  "intensity": 85,
+  "effect": "static",
+  "fade": 2,
+  "sound": {
+   "mood": "clair",
+   "layers": {
+    "crowd": 0.3,
+    "clock": 0.3
+   }
+  },
+  "keywords": [
+   "école",
+   "classe",
+   "cours",
+   "examen",
+   "université",
+   "collège",
+   "récréation",
+   "professeur"
+  ]
+ },
+ {
+  "id": "cuisine",
+  "name": "Cuisine",
+  "emoji": "🍳",
+  "colors": [
+   "#fff3e0",
+   "#ffcc80"
+  ],
+  "intensity": 85,
+  "effect": "static",
+  "fade": 2,
+  "sound": {
+   "mood": "chaud",
+   "layers": {
+    "fire": 0.2,
+    "hum": 0.2,
+    "drip": 0.15
+   }
+  },
+  "keywords": [
+   "cuisine",
+   "restaurant",
+   "chef",
+   "pâtisserie",
+   "repas de famille",
+   "noël",
+   "anniversaire"
+  ]
+ },
+ {
+  "id": "stade",
+  "name": "Stade / ring",
+  "emoji": "🏟️",
+  "colors": [
+   "#ffffff",
+   "#ffeb3b"
+  ],
+  "intensity": 100,
+  "effect": "static",
+  "fade": 1,
+  "sound": {
+   "mood": "joyeux",
+   "layers": {
+    "crowd": 0.9,
+    "heartbeat": 0.2
+   }
+  },
+  "keywords": [
+   "stade",
+   "match",
+   "ring",
+   "boxe",
+   "finale",
+   "jeux olympiques",
+   "concert",
+   "foule",
+   "arène"
+  ]
+ },
+ {
+  "id": "tribunal",
+  "name": "Tribunal",
+  "emoji": "⚖️",
+  "colors": [
+   "#ffe0b2",
+   "#bcaaa4"
+  ],
+  "intensity": 70,
+  "effect": "static",
+  "fade": 3,
+  "sound": {
+   "mood": "tendu",
+   "layers": {
+    "clock": 0.4,
+    "drone": 0.3,
+    "crowd": 0.1
+   }
+  },
+  "keywords": [
+   "tribunal",
+   "procès",
+   "juge",
+   "avocat",
+   "verdict",
+   "parlement"
+  ]
+ }
+]
